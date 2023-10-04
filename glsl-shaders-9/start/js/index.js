@@ -14,6 +14,12 @@ uniform float u_time;
 
 varying vec3 vPosition;
 
+mat2 getRotationMatrix(float theta) {
+  float s = sin(theta);
+  float c = cos(theta);
+  return mat2(c, -s, s, c);
+}
+
 float rect(vec2 pt, vec2 size, vec2 center){
   //return 0 if not in box and 1 if it is
   //step(edge, x) 0.0 is returned if x < edge, and 1.0 is returned otherwise.
@@ -26,11 +32,30 @@ float rect(vec2 pt, vec2 size, vec2 center){
 
 void main (void)
 {
-  float radius = 0.5;
-  float angle = u_time;
-  float square = rect(vPosition.xy, vec2(0.5), vec2(cos(angle)*radius, sin(angle)*radius));
-  vec3 color = vec3(1.0, 1.0, 0.0) * square;
-  gl_FragColor = vec4(color, 1.0); 
+  // // A square that move around the center
+  // float radius = 0.5;
+  // float angle = u_time;
+  // float square = rect(vPosition.xy, vec2(0.5), vec2(cos(angle)*radius, sin(angle)*radius));
+  // vec3 color = vec3(1.0, 1.0, 0.0) * square;
+  // gl_FragColor = vec4(color, 1.0); 
+  
+  // // A square that rotates around the center
+  // float time = u_time * 2.0;
+  // vec2 center = vec2(0.0);
+  // mat2 mat = getRotationMatrix(time);
+  // vec2 pt = mat * vPosition.xy;
+  // float inRect = rect(pt, vec2(0.5), center);
+  // vec3 color = vec3(1.0, 1.0, 0.0) * inRect;
+  // gl_FragColor = vec4(color, 1.0);
+
+  // A square that rotates around the center and moves around the center
+  vec2 center = vec2(0.5, 0.0);
+  mat2 mat = getRotationMatrix(u_time);
+  vec2 pt = mat * vPosition.xy;
+  float inRect = rect(pt, vec2(0.5), center);
+  vec3 color = vec3(1.0, 1.0, 0.0) * inRect;
+  gl_FragColor = vec4(color, 1.0);
+
 }
 `
 

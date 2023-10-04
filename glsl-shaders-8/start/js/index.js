@@ -14,6 +14,7 @@ uniform float u_time;
 
 varying vec3 vPosition;
 
+// pt: the test pixel position; size: width and height of rectangle; center: the x, y position of the rectangle center
 float rect(vec2 pt, vec2 size, vec2 center){
   //return 0 if not in box and 1 if it is
   //step(edge, x) 0.0 is returned if x < edge, and 1.0 is returned otherwise.
@@ -26,9 +27,20 @@ float rect(vec2 pt, vec2 size, vec2 center){
 
 void main (void)
 {
-  float square = rect(vPosition.xy, vec2(1.0), vec2(0.0));
+  // // Two squares
+  // float square1 = rect(vPosition.xy, vec2(0.3), vec2(-0.5, 0.0));
+  // float square2 = rect(vPosition.xy, vec2(0.4), vec2(0.5, 0.0));
+  // // float square = rect(vPosition.xy, vec2(1.0), vec2(0.0));
+  // // vec3 color = vec3(1.0, 1.0, 0.0) * square;
+  // vec3 color = vec3(1.0, 1.0, 0.0) * square1 + vec3(0.0, 1.0, 0.0) * square2;
+  // gl_FragColor = vec4(color, 1.0); 
+
+  // A square that moves in a circle
+  float radius = 0.5;
+  vec2 center = vec2(cos(u_time) * radius, sin(u_time) * radius);
+  float square = rect(vPosition.xy, vec2(0.1), center);
   vec3 color = vec3(1.0, 1.0, 0.0) * square;
-  gl_FragColor = vec4(color, 1.0); 
+  gl_FragColor = vec4(color, 1.0);
 }
 `
 

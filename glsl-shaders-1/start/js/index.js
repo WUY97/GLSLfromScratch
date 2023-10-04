@@ -1,8 +1,12 @@
 const vshader = `
-
+  void main() {
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position * 0.5, 1.0 );
+  }
 `
 const fshader = `
-
+  void main() {
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 1.0 );
+  }
 `
 
 
@@ -26,7 +30,8 @@ document.body.appendChild( renderer.domElement );
 
 const geometry = new THREE.PlaneGeometry( 2, 2 );
 const material = new THREE.ShaderMaterial( {
-  
+  vertexShader: vshader,
+  fragmentShader: fshader
 } );
 
 const plane = new THREE.Mesh( geometry, material );
